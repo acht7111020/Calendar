@@ -1,5 +1,7 @@
 package com.example.jeanlee.calendar;
 
+import android.app.ActionBar;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +22,8 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.pink));
+
         todoButton=(ImageButton)findViewById(R.id.btLeft1);
         todoButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override

@@ -11,5 +11,11 @@
     <string name="title_activity_calendar">CalendarActivity</string>
     <string name="title_activity_notes">NotesActivity</string>
     <string name="title_activity_note">NoteActivity</string>
+    <string name="options_exit_text">Exit</string>
+    <string name="message_empty_layout_changes">empty_layout_changes</string>
+    <string name="action_add_item">action_add_item</string>
+    <string name="action_remove_item">action_remove_item</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_activity_journal_activity_card">JournalActivity_card</string>
 
 </resources>

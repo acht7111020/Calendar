@@ -7,5 +7,14 @@
     <color name="light_blue">#ff74bdf9</color>
     <color name="light_green">#ff82cc86</color>
 
+<!-- colors for theme management -->
+    <color name="primary">#673ab7</color>
+    <color name="primary_dark">#512da8</color>
+    <color name="accent">#ffc400</color>
+    <color name="text_primary">#D9FFFFFF</color>
+    <color name="text_secondary">#D9000000</color>
+    <drawable name="pink">#ffff93cd</drawable>
+
+
 
 </resources>

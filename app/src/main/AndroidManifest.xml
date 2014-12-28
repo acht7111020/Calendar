@@ -36,6 +36,10 @@
             android:name=".NoteActivity"
             android:label="@string/title_activity_note" >
         </activity>
+        <activity
+            android:name=".JournalActivity_card"
+            android:label="@string/title_activity_journal_activity_card" >
+        </activity>
     </application>
 
 </manifest>
