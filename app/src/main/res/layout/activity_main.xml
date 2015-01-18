@@ -3,14 +3,16 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="#E0FF99CC">
 
     <TableRow
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <ImageButton
+        <ImageView
+            android:padding="3sp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btLeft1"
@@ -18,10 +20,11 @@
             android:layout_marginRight="30px"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/todo"
+            android:src="@drawable/todolist"
             android:layout_weight="1" />
 
-        <ImageButton
+        <ImageView
+            android:padding="6sp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btRight1"
@@ -30,7 +33,7 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:layout_weight="1"
-            android:src="@drawable/album" />
+            android:src="@drawable/journal2" />
     </TableRow>
 
     <TableRow
@@ -38,7 +41,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <ImageButton
+        <ImageView
+            android:padding="3sp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btLeft2"
@@ -46,10 +50,11 @@
             android:layout_marginRight="30px"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:src="@drawable/journal"
+            android:src="@drawable/photoalbum2"
             android:layout_weight="1" />
 
-        <ImageButton
+        <ImageView
+            android:padding="5sp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btRight2"
@@ -57,7 +62,7 @@
             android:layout_marginLeft="30px"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:src="@drawable/notes"
+            android:src="@drawable/wishlist"
             android:layout_weight="1" />
     </TableRow>
 
@@ -66,7 +71,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <ImageButton
+        <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btLeft3"
@@ -77,16 +82,17 @@
             android:layout_weight="1"
             android:src="@drawable/calendar" />
 
-        <ImageButton
+        <ImageView
+            android:padding="3sp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btRight3"
             android:layout_column="1"
             android:layout_marginLeft="30px"
-            android:scaleType="center"
             android:adjustViewBounds="true"
             android:layout_weight="1"
-            android:src="@drawable/girl" />
+            android:src="@drawable/calendarholic"
+            android:scaleType="centerCrop"/>
     </TableRow>
 
 </TableLayout>

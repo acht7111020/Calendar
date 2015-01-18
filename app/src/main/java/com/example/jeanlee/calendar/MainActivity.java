@@ -9,14 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class MainActivity extends ActionBarActivity{
 
-    ImageButton calendarButton;
-    ImageButton journalButton;
-    ImageButton notesButton;
-    ImageButton albumButton;
-    ImageButton todoButton;
+    ImageView calendarButton;
+    ImageView journalButton;
+    ImageView notesButton;
+    ImageView albumButton;
+    ImageView todoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class MainActivity extends ActionBarActivity{
         setContentView(R.layout.activity_main);
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.pink));
 
-        todoButton=(ImageButton)findViewById(R.id.btLeft1);
+        todoButton=(ImageView)findViewById(R.id.btLeft1);
         todoButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -35,7 +36,7 @@ public class MainActivity extends ActionBarActivity{
         });
 
 
-        albumButton=(ImageButton)findViewById(R.id.btLeft2);
+        albumButton=(ImageView)findViewById(R.id.btLeft2);
         albumButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -46,7 +47,7 @@ public class MainActivity extends ActionBarActivity{
         });
 
 
-        journalButton=(ImageButton)findViewById(R.id.btRight1);
+        journalButton=(ImageView)findViewById(R.id.btRight1);
         journalButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -56,7 +57,7 @@ public class MainActivity extends ActionBarActivity{
 
         });
 
-        notesButton=(ImageButton)findViewById(R.id.btRight2);
+        notesButton=(ImageView)findViewById(R.id.btRight2);
         notesButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -66,11 +67,11 @@ public class MainActivity extends ActionBarActivity{
 
         });
 
-        calendarButton=(ImageButton)findViewById(R.id.btLeft3);
+        calendarButton=(ImageView)findViewById(R.id.btLeft3);
         calendarButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), CalendarActivity.class);
+                Intent intent = new Intent(v.getContext(), CalendarViewActivity.class);
                 startActivity(intent);
             }
 

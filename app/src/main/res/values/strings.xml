@@ -17,5 +17,6 @@
     <string name="action_remove_item">action_remove_item</string>
     <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="title_activity_journal_activity_card">JournalActivity_card</string>
+    <string name="title_activity_calendar_view">CalendarViewActivity</string>
 
 </resources>
