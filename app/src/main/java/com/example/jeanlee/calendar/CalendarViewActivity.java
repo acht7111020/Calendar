@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import sqlite.helper.CalendarDBhelper;
+import sqlite.helper.TodoDatabaseHelper;
 import sqlite.model.Journal;
 import sqlite.model.Task;
 
@@ -47,6 +48,7 @@ public class CalendarViewActivity extends Activity {
 
     private  String daynow;
     public CalendarDBhelper db;
+    public TodoDatabaseHelper db2;
     private String prefix;
     public Calendar month;
     public ListView list ;
@@ -78,6 +80,7 @@ public class CalendarViewActivity extends Activity {
         prefix = month.get(Calendar.YEAR)+"/"+t+"/";
         listview_list = new ArrayList<Map<String, Object>>();
         db = CalendarDBhelper.getInstance(this);
+        db2=TodoDatabaseHelper.getInstance(this);
         list = (ListView)findViewById(R.id.dailyView1);
         plus = (ImageView)findViewById(R.id.calendar_todo);
 
@@ -186,8 +189,8 @@ public class CalendarViewActivity extends Activity {
             }
         }*/
 
-       List<Journal> journallist = db.getJournalByDate(daynow);
-        List<Task> tasklist = db.getTasksByDate(daynow);
+        List<Journal> journallist = db.getJournalByDate(daynow);
+        List<Task> tasklist = db2.getTasksByDate(daynow);
 
 
         if(journallist.size() != 0){

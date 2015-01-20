@@ -31,11 +31,12 @@ import android.widget.Toast;
 
 import sqlite.helper.CalendarDBhelper;
 import sqlite.helper.TaskDBHelper;
+import sqlite.helper.TodoDatabaseHelper;
 import sqlite.model.Journal;
 import sqlite.model.Task;
 
 public class TodoActivity extends ActionBarActivity {
-    protected CalendarDBhelper db;
+    protected TodoDatabaseHelper db;
     List<Task> list;
     MyAdapter adapt;
     private ViewGroup mContainerView;
@@ -45,7 +46,7 @@ public class TodoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
-        db=CalendarDBhelper.getInstance(this);
+        db=TodoDatabaseHelper.getInstance(this);
         list = db.getAllTasks();
         adapt = new MyAdapter(this, R.layout.list_inner_view, list);
         ListView listTask = (ListView) findViewById(R.id.listView1);

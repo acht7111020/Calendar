@@ -26,6 +26,7 @@ import java.util.Map;
 
 import sqlite.helper.CalendarDBhelper;
 import sqlite.helper.DataBaseHelper;
+import sqlite.helper.TodoDatabaseHelper;
 import sqlite.model.Journal;
 import sqlite.model.Task;
 
@@ -38,6 +39,7 @@ public class CalendarAdapter extends BaseAdapter  {
     //TODO: NEW CALENDAR
     static final int FIRST_DAY_OF_WEEK =0; // Sunday = 0, Monday = 1
     private CalendarDBhelper db;
+    private TodoDatabaseHelper db2;
     private Context mContext;
     private Calendar month;
     private Calendar selectedDate;
@@ -110,6 +112,7 @@ public class CalendarAdapter extends BaseAdapter  {
             }
 
             db = CalendarDBhelper.getInstance(mContext);
+            db2=TodoDatabaseHelper.getInstance(mContext);
             int mon = month.get(Calendar.MONTH)+1;
             String prefix = month.get(Calendar.YEAR)+"/"+mon+"/";
             String daynow = prefix+days[position];
@@ -122,8 +125,8 @@ public class CalendarAdapter extends BaseAdapter  {
                     }
 
                 }
-            }
-            if(db.getAllJournals().size()!=0){
+            }*/
+            /*if(db.getAllJournals().size()!=0){
                 for(int i=0;i<db.getAllJournals().size();i++){
                     if(db.getAllJournals().get(i).getDateAt().equals(daynow)){
                         icon2.setImageResource(R.drawable.happy);
@@ -137,7 +140,7 @@ public class CalendarAdapter extends BaseAdapter  {
           //  }
 
             List<Journal> journal = db.getJournalByDate(daynow);
-            List<Task> task = db.getTasksByDate(daynow);
+            List<Task> task = db2.getTasksByDate(daynow);
             if(journal.size() != 0){
 
                 icon1.setImageResource(R.drawable.happy);
@@ -147,13 +150,13 @@ public class CalendarAdapter extends BaseAdapter  {
                     icon2.setVisibility(View.VISIBLE);
                 }
             }
-             /*else{
+             else{
                  if(task.size() != 0){
 
                      icon1.setImageResource(R.drawable.deadline);
                      icon1.setVisibility(View.VISIBLE);
                  }
-             }*/
+             }
         }
         dayView.setText(days[position]);
 
