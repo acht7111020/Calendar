@@ -91,6 +91,10 @@
             android:name=".CalendarViewActivity"
             android:label="@string/title_activity_calendar_view" >
         </activity>
+        <activity
+            android:name="PetActivity"
+            android:label="@string/PetActivity" >
+        </activity>
     </application>
 
 </manifest>

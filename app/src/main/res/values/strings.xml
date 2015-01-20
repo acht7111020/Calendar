@@ -45,6 +45,7 @@
     <string name="title_activity_change_wish">ChangeWish</string>
     <string name="title_activity_grid_view_testing">GridViewTesting</string>
     <string name="title_activity_calendar_view">CalendarViewActivity</string>
+    <string name="PetActivity">PetActivtiy</string>
 
 
 </resources>

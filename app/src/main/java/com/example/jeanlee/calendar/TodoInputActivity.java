@@ -22,6 +22,7 @@ import java.util.List;
 
 import sqlite.helper.CalendarDBhelper;
 import sqlite.helper.TaskDBHelper;
+import sqlite.helper.TodoDatabaseHelper;
 import sqlite.model.Task;
 
 /*
@@ -32,7 +33,7 @@ public class TodoInputActivity extends ActionBarActivity {
 
     private EditText mTitleText;
     private static EditText mDate;
-    protected CalendarDBhelper db;
+    protected TodoDatabaseHelper db;
     List<Task> list;
     private ViewGroup mContainerView;
 
@@ -118,7 +119,7 @@ public class TodoInputActivity extends ActionBarActivity {
 
     private static final String ACTIVITY_TAG="INPUT";
     public void addTaskNow(EditText t,EditText date) {
-        db=CalendarDBhelper.getInstance(this);
+        db=TodoDatabaseHelper.getInstance(this);
         String s = t.getText().toString();
         String sdate=date.getText().toString();
         if (s.equalsIgnoreCase("")) {
@@ -126,7 +127,7 @@ public class TodoInputActivity extends ActionBarActivity {
                     Toast.LENGTH_LONG).show();
         } else {
             Task task = new Task(s, 0,sdate);
-            db=CalendarDBhelper.getInstance(this);
+            db=TodoDatabaseHelper.getInstance(this);
             long listid=db.addTask(task);
             task.setId(listid);
             t.setText("");

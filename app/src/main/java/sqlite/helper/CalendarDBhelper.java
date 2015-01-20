@@ -409,10 +409,11 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
         List<Journal> journals = new ArrayList<Journal>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_TASKS + " WHERE "
+        String selectQuery = "SELECT  * FROM " + TABLE_JOURNAL + " WHERE "
                 + KEY_DATE + " = " +"\'"+ date+"\'";
         Log.e("journal",date);
         Cursor c = db.rawQuery(selectQuery, null);
+        Log.e("journal",""+c.getCount());
 
         if (c != null)
             c.moveToFirst();
@@ -420,6 +421,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
+                Log.e("journal1","haha");
                 Journal journal = new Journal();
                 journal.setId(c.getInt((c.getColumnIndex(KEY_ID))));
                 journal.setTitle((c.getString(c.getColumnIndex(KEY_TITLE))));

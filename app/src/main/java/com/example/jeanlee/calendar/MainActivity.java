@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity{
         filedemoButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), NoteActivity.class);
+                Intent intent = new Intent(v.getContext(),PetActivity.class);
                 startActivity(intent);
             }
 

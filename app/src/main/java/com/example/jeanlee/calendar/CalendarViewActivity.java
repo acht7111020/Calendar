@@ -186,11 +186,11 @@ public class CalendarViewActivity extends Activity {
             }
         }*/
 
-        //List<Journal> journallist = db.getJournalByDate(daynow);
+       List<Journal> journallist = db.getJournalByDate(daynow);
         List<Task> tasklist = db.getTasksByDate(daynow);
 
 
-       /* if(journallist.size() != 0){
+        if(journallist.size() != 0){
             for(Journal journal : journallist){
                 String title = journal.getTitle();
                 String info = journal.getDescrip();
@@ -200,7 +200,7 @@ public class CalendarViewActivity extends Activity {
                 map.put("listview_icon",image[0]);
                 listview_list.add(map);
             }
-        }*/
+        }
         if(tasklist.size() != 0){
             for(Task task : tasklist ){
                 String title = task.getTaskName();

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 import sqlite.helper.CalendarDBhelper;
+import sqlite.helper.TodoDatabaseHelper;
 import sqlite.model.Journal;
 import sqlite.model.Task;
 
@@ -30,7 +31,7 @@ import sqlite.model.Task;
 public class ChangeTaskActivity extends ActionBarActivity {
 
     private EditText mTitleText;
-    protected CalendarDBhelper db;
+    protected TodoDatabaseHelper db;
     private static EditText mDate;
     static List<Task> list;
     private ViewGroup mContainerView;
@@ -85,7 +86,7 @@ public class ChangeTaskActivity extends ActionBarActivity {
        /* Get values from Intent */
         intent=getIntent();
         long id=intent.getLongExtra("id",-1);
-        db=CalendarDBhelper.getInstance(this);
+        db=TodoDatabaseHelper.getInstance(this);
         Log.e("where are you2","whereare you ");
         task=db.getTask(id);
         Log.e("where are you2","whereare you "+task);
