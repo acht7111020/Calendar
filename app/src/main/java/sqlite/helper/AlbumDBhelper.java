@@ -119,7 +119,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
  */
     public long createAlbum(Album album) {
         SQLiteDatabase db = this.getWritableDatabase();
-
+        Log.e("albumdb","jkhjk");
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, album.getTitle());
         values.put(KEY_DATE, album.getDateAt());
