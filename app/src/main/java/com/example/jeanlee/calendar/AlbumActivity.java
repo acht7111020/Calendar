@@ -1,6 +1,7 @@
 package com.example.jeanlee.calendar;
 
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Color;
@@ -21,18 +23,23 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import sqlite.helper.AlbumDBhelper;
+import sqlite.model.Album;
+
 
 public class AlbumActivity extends ActionBarActivity {
 
  /*   static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView mImageView;*/
-
+    private AlbumDBhelper db;
     /**request Code 从相册选择照片并裁切**/
     private final static int SELECT_PIC=123;
     /**request Code 从相册选择照片不裁切**/
@@ -53,6 +60,7 @@ public class AlbumActivity extends ActionBarActivity {
         //set background
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.pink));
 
+        db=AlbumDBhelper.getInstance(this);
         imageUri=Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"));
         imgShow=(ImageView)findViewById(R.id.imgShow);
 
@@ -103,8 +111,22 @@ public class AlbumActivity extends ActionBarActivity {
             case SELECT_PIC:
                 if (resultCode==RESULT_OK) {//从相册选择照片并裁切
                     try {
-                        Bitmap bitmap=BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));//将imageUri对象的图片加载到内存
+                        Bitmap bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        ByteArrayOutputStream out =new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG,100,out);
+
+                        ContentValues cv=new ContentValues();
+                        Album photo=new Album();
+                        photo.setPhoto(out.toByteArray());
+                        photo.setTitle("picture");
+                        long id=db.createAlbum(photo);
+                        Album get=db.getAlbum(id);
+                        Log.e("album",get.getTitle());
+                        //cv.put("picture",out.toByteArray());
+
                         imgShow.setImageBitmap(bitmap);
+                        bitmap.recycle();
+
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -114,16 +136,21 @@ public class AlbumActivity extends ActionBarActivity {
             case SELECT_ORIGINAL_PIC:
                 if (resultCode==RESULT_OK) {//从相册选择照片不裁切
                     try {
-                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                        Cursor cursor = getContentResolver().query(selectedImage,
-                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String picturePath = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
-                        Bitmap bitmap= BitmapFactory.decodeFile(picturePath);
+                        Bitmap bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        ByteArrayOutputStream out =new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG,100,out);
+
+                        ContentValues cv=new ContentValues();
+                        Album photo=new Album();
+                        photo.setPhoto(out.toByteArray());
+                        photo.setTitle("picture");
+                        long id=db.createAlbum(photo);
+                        Album get=db.getAlbum(id);
+                        Log.e("album",get.getTitle());
+                        //cv.put("picture",out.toByteArray());
+
                         imgShow.setImageBitmap(bitmap);
+                        bitmap.recycle();
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
