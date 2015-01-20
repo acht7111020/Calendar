@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,20 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import sqlite.helper.CalendarDBhelper;
+import sqlite.helper.DataBaseHelper;
+import sqlite.model.Journal;
+import sqlite.model.Task;
 
 /**
  * Created by 心愉 on 2014/12/31.
@@ -26,7 +37,7 @@ public class CalendarAdapter extends BaseAdapter  {
 
     //TODO: NEW CALENDAR
     static final int FIRST_DAY_OF_WEEK =0; // Sunday = 0, Monday = 1
-
+    private CalendarDBhelper db;
     private Context mContext;
     private Calendar month;
     private Calendar selectedDate;
@@ -34,13 +45,14 @@ public class CalendarAdapter extends BaseAdapter  {
     private LinearLayout lin;
     private ImageView icon1;
     private ImageView icon2;
+    private ListView list;
 
-    public CalendarAdapter(Context c, Calendar monthCalendar) {
+    public CalendarAdapter(Context c, Calendar monthCalendar ) {
         month = monthCalendar;
         selectedDate = (Calendar)monthCalendar.clone();
         mContext = c;
         month.set(Calendar.DAY_OF_MONTH, 1);
-
+       // db = db;
         refreshDays();
     }
 
@@ -95,20 +107,56 @@ public class CalendarAdapter extends BaseAdapter  {
                 v.setBackgroundResource(R.drawable.blue);
                 dayView.setTextColor(Color.WHITE);
 
-                icon1.setImageResource(R.drawable.meeting);
-                icon2.setImageResource(R.drawable.deadline);
+            }
+
+            db = CalendarDBhelper.getInstance(mContext);
+            int mon = month.get(Calendar.MONTH)+1;
+            String prefix = month.get(Calendar.YEAR)+"/"+mon+"/";
+            String daynow = prefix+days[position];
+    /*        System.out.println(daynow);
+            if(db.getAllTasks().size()!=0){
+                for(int i=0;i<db.getAllTasks().size();i++){
+                    if(db.getAllTasks().get(i).getDateAt().equals(daynow)){
+                        icon1.setImageResource(R.drawable.deadline);
+                        icon1.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            }
+            if(db.getAllJournals().size()!=0){
+                for(int i=0;i<db.getAllJournals().size();i++){
+                    if(db.getAllJournals().get(i).getDateAt().equals(daynow)){
+                        icon2.setImageResource(R.drawable.happy);
+                        icon2.setVisibility(View.VISIBLE);
+                    }
+                }
+            }*/
+
+          //  if(db.getAllTasks().size() != 0){
+                //icon1.setVisibility(View.VISIBLE);
+          //  }
+
+            List<Journal> journal = db.getJournalByDate(daynow);
+            List<Task> task = db.getTasksByDate(daynow);
+            if(journal.size() != 0){
+
+                icon1.setImageResource(R.drawable.happy);
                 icon1.setVisibility(View.VISIBLE);
-                icon2.setVisibility(View.VISIBLE);
-
+                if(task.size() != 0){
+                    icon2.setImageResource(R.drawable.deadline);
+                    icon2.setVisibility(View.VISIBLE);
+                }
             }
-            else {
+             /*else{
+                 if(task.size() != 0){
 
-                //v.setBackgroundResource(R.drawable.pink_calendar);
-            }
+                     icon1.setImageResource(R.drawable.deadline);
+                     icon1.setVisibility(View.VISIBLE);
+                 }
+             }*/
         }
         dayView.setText(days[position]);
 
-        // create date string for comparison
         String date = days[position];
 
         if(date.length()==1) {
@@ -122,6 +170,9 @@ public class CalendarAdapter extends BaseAdapter  {
 
         return v;
     }
+
+
+
 
     public void refreshDays()
     {

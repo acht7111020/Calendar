@@ -58,6 +58,7 @@
                  android:gravity="right">
 
                 <ImageView
+                    android:visibility="invisible"
                     android:padding="2dp"
                     android:layout_width="33dp"
                     android:layout_height="33dp"

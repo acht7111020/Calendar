@@ -4,8 +4,14 @@
     tools:context="com.example.jeanlee.calendar.AlbumActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/btnCropFromGallery"
+        android:title="PickPic"
+        android:icon="@drawable/icon_photo"
+        app:showAsAction="always"
+        />
     <item android:id="@+id/take_photo"
         android:title="@string/take_photo"
         android:icon="@drawable/ic_action_camera"
         app:showAsAction="always" />
+
 </menu>

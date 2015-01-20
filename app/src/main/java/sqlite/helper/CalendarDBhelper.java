@@ -68,12 +68,12 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
     private static final String CREATE_TABLE_TASK = "CREATE TABLE "
             + TABLE_TASKS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TASKNAME
             + " TEXT," + KEY_STATUS + " INTEGER," + KEY_DATE
-            + " DATETIME" + ")";
+            + " TEXT" + ")";
 
     // Tag table create statement
     private static final String CREATE_TABLE_JOURNAL = "CREATE TABLE " + TABLE_JOURNAL
             + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT,"+KEY_DESCRIP+" TEXT,"
-            + KEY_DATE + " DATETIME" + ")";
+            + KEY_DATE + " TEXT" + ")";
 
     // todo_tag table create statement
     private static final String CREATE_TABLE_LIST = "CREATE TABLE "
@@ -381,7 +381,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_TASKS + " WHERE "
-                + KEY_DATE + " = " + date;
+                + KEY_DATE + " = "  +"\'"+ date+"\'";
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -410,8 +410,8 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_TASKS + " WHERE "
-                + KEY_DATE + " = " + date;
-
+                + KEY_DATE + " = " +"\'"+ date+"\'";
+        Log.e("journal",date);
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c != null)
@@ -425,6 +425,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
                 journal.setTitle((c.getString(c.getColumnIndex(KEY_TITLE))));
                 journal.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
                 journal.setDescrip(c.getString(c.getColumnIndex(KEY_DESCRIP)));
+                Log.e("journal",journal.getDateAt());
 
                 // adding to journal list
                 journals.add(journal);

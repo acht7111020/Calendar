@@ -11,12 +11,14 @@ import android.content.Intent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.File;
+
 public class MainActivity extends ActionBarActivity{
 
 
     ImageView calendarButton;
     ImageView journalButton;
-    ImageView notesButton;
+    ImageView wishButton;
     ImageView albumButton;
     ImageView todoButton;
     ImageView filedemoButton;
@@ -59,11 +61,11 @@ public class MainActivity extends ActionBarActivity{
 
         });
 
-        notesButton=(ImageView)findViewById(R.id.btRight2);
-        notesButton.setOnClickListener(new ImageButton.OnClickListener(){
+        wishButton=(ImageView)findViewById(R.id.btRight2);
+        wishButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), NoteActivity.class);
+                Intent intent = new Intent(v.getContext(), WishListActivity.class);
                 startActivity(intent);
             }
 
@@ -83,7 +85,7 @@ public class MainActivity extends ActionBarActivity{
         filedemoButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), WishListActivity.class);
+                Intent intent = new Intent(v.getContext(), NoteActivity.class);
                 startActivity(intent);
             }
 

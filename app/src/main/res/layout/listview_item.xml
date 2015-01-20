@@ -20,7 +20,8 @@
 
         <TextView
 
-            android:text="fffffff"
+            android:text=""
+            android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title"
@@ -28,6 +29,7 @@
             />
 
         <TextView
+            android:maxLines="1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="abc"

@@ -24,7 +24,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:padding="6sp"
+            android:padding="18dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btRight1"
@@ -62,7 +62,7 @@
             android:layout_marginLeft="30px"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:src="@drawable/notes"
+            android:src="@drawable/wishlist"
             android:layout_weight="1" />
     </TableRow>
 
