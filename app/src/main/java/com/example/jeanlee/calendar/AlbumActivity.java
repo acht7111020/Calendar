@@ -1,6 +1,7 @@
 package com.example.jeanlee.calendar;
 
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Color;
@@ -21,6 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -104,7 +107,14 @@ public class AlbumActivity extends ActionBarActivity {
                 if (resultCode==RESULT_OK) {//从相册选择照片并裁切
                     try {
                         Bitmap bitmap=BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));//将imageUri对象的图片加载到内存
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                      //  byte bytes[] = out.toByteArray();
+                        ContentValues cv = new ContentValues();
+                        cv.put("picture",out.toByteArray());
+
                         imgShow.setImageBitmap(bitmap);
+                        bitmap.recycle();
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -178,25 +188,6 @@ public class AlbumActivity extends ActionBarActivity {
         startActivityForResult(intent, requestCode);
     }
 
-  /*  public void cropPic(View view) {
-        switch (view.getId()) {
-            case R.id.btnCropFromGallery://从相册选择照片进行裁剪
-                cropFromGallery();
-                break;
-            case R.id.btnCropFromTake://从相机拍取照片进行裁剪
-                cropFromTake();
-                break;
-            case R.id.btnOriginal://从相册选择照片不裁切
-                selectFromGallery();
-                break;
-            case R.id.btnTakeOriginal://从相机拍取照片不裁剪
-                selectFromTake();
-                break;
-
-            default:
-                break;
-        }
-    }*/
 
     /**
      * 从相册选择原生的照片（不裁切）

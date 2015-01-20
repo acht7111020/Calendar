@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -136,9 +137,9 @@ public class CalendarAdapter extends BaseAdapter  {
                 //icon1.setVisibility(View.VISIBLE);
           //  }
 
-            List<Journal> journal = db.getJournalByDate(daynow);
+          //  List<Journal> journal = db.getJournalByDate(daynow);
             List<Task> task = db.getTasksByDate(daynow);
-            if(journal.size() != 0){
+        /*    if(journal.size() != 0){
 
                 icon1.setImageResource(R.drawable.happy);
                 icon1.setVisibility(View.VISIBLE);
@@ -147,13 +148,13 @@ public class CalendarAdapter extends BaseAdapter  {
                     icon2.setVisibility(View.VISIBLE);
                 }
             }
-             /*else{
+             else{*/
                  if(task.size() != 0){
 
                      icon1.setImageResource(R.drawable.deadline);
                      icon1.setVisibility(View.VISIBLE);
                  }
-             }*/
+          //   }
         }
         dayView.setText(days[position]);
 
