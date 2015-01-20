@@ -48,6 +48,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
     //ALBUM Table Columns name
     public static final String KEY_TITLE="album_title";
     public static final String KEY_DESCRIP="album_descrip";
+    public static final String KEY_PHOTO="album_photo";
 
 
     // Table Create Statements
@@ -56,7 +57,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
     // Tag table create statement
     private static final String CREATE_TABLE_ALBUM = "CREATE TABLE " + TABLE_ALBUM
             + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT,"+KEY_DESCRIP+" TEXT,"
-            + KEY_DATE + " TEXT" + ")";
+            + KEY_DATE + " TEXT," + KEY_PHOTO+" BLOB NOT NULL"+")";
 
     /**
      *
@@ -123,6 +124,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
         values.put(KEY_TITLE, album.getTitle());
         values.put(KEY_DATE, album.getDateAt());
         values.put(KEY_DESCRIP, album.getDescrip());
+        values.put(KEY_PHOTO,album.getPhoto());
 
         // insert row
         long album_id = db.insert(TABLE_ALBUM, null, values);
@@ -151,6 +153,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
         album.setTitle((c.getString(c.getColumnIndex(KEY_TITLE))));
         album.setDescrip(c.getString(c.getColumnIndex(KEY_DESCRIP)));
         album.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
+        album.setPhoto(c.getBlob(c.getColumnIndex(KEY_PHOTO)));
 
         return album;
     }
@@ -176,6 +179,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
                 a.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
                 a.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
                 a.setDescrip(c.getString(c.getColumnIndex(KEY_DESCRIP)));
+                a.setPhoto(c.getBlob(c.getColumnIndex(KEY_PHOTO)));
 
                 // adding to journal
                 albums.add(a);
@@ -193,6 +197,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
         values.put(KEY_TITLE, album.getTitle());
         values.put(KEY_DESCRIP,album.getDescrip());
         values.put(KEY_DATE,album.getDateAt());
+        values.put(KEY_PHOTO,album.getPhoto());
 
         // updating row
         return db.update(TABLE_ALBUM, values, KEY_ID + " = ?",
@@ -230,6 +235,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
                 a.setDescrip((c.getString(c.getColumnIndex(KEY_DESCRIP))));
                 a.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
                 a.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
+                a.setPhoto(c.getBlob(c.getColumnIndex(KEY_PHOTO)));
 
                 // adding to todo list
                 albums.add(a);

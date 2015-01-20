@@ -8,7 +8,7 @@ public class Album{
     private String title;
     private long id;
     private String do_date;
-
+    private byte[] photo;
     public Album()
     {
         this.descrip=null;
@@ -45,5 +45,10 @@ public class Album{
     public String getDateAt(){
         return do_date;
     }
-
+    public void setPhoto(byte[] photo){
+        this.photo=photo;
+    }
+    public byte[] getPhoto(){
+        return photo;
+    }
 }
