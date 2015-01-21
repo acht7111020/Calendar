@@ -154,7 +154,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
         album.setDescrip(c.getString(c.getColumnIndex(KEY_DESCRIP)));
         album.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
         album.setPhoto(c.getBlob(c.getColumnIndex(KEY_PHOTO)));
-
+        c.close();
         return album;
     }
 
@@ -185,6 +185,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
                 albums.add(a);
             } while (c.moveToNext());
         }
+        c.close();
         return albums;
     }
     /*
@@ -241,7 +242,7 @@ public class AlbumDBhelper extends SQLiteOpenHelper{
                 albums.add(a);
             } while (c.moveToNext());
         }
-
+        c.close();
         return albums;
 
     }

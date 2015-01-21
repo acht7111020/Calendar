@@ -230,7 +230,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
                 tasks.add(tk);
             } while (c.moveToNext());
         }
-
+        c.close();
         return tasks;
     }
 
@@ -304,7 +304,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
         journal.setTitle((c.getString(c.getColumnIndex(KEY_TITLE))));
         journal.setDescrip(c.getString(c.getColumnIndex(KEY_DESCRIP)));
         journal.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
-
+        c.close();
         return journal;
     }
 
@@ -334,6 +334,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
                 journals.add(j);
             } while (c.moveToNext());
         }
+        c.close();
         return journals;
     }
     /*
@@ -401,7 +402,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
                 tasks.add(tk);
             } while (c.moveToNext());
         }
-
+        c.close();
         return tasks;
 
     }
@@ -433,7 +434,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
                 journals.add(journal);
             } while (c.moveToNext());
         }
-
+        c.close();
         return journals;
     }
 
@@ -477,7 +478,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
         wh.setId(c.getLong(c.getColumnIndex(KEY_ID)));
         wh.setWishName((c.getString(c.getColumnIndex(KEY_WISHNAME))));
         wh.setStatus(c.getInt(c.getColumnIndex(KEY_STATUS)));
-
+        c.close();
         return wh;
     }
 
@@ -506,7 +507,7 @@ public class CalendarDBhelper extends SQLiteOpenHelper{
                 wishes.add(wh);
             } while (c.moveToNext());
         }
-
+        c.close();
         return wishes;
     }
 

@@ -187,7 +187,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
         tk.setTaskName((c.getString(c.getColumnIndex(KEY_TASKNAME))));
         tk.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
         tk.setStatus(c.getInt(c.getColumnIndex(KEY_STATUS)));
-
+        c.close();
         return tk;
     }
 
@@ -217,7 +217,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
                 tasks.add(tk);
             } while (c.moveToNext());
         }
-
+        c.close();
         return tasks;
     }
 
@@ -280,6 +280,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
             Log.e("countTask",""+count);
 
         }
+        cursor1.close();
         return count;
     }
     public int getTaskCount() {
@@ -329,7 +330,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
                 tasks.add(tk);
             } while (c.moveToNext());
         }
-
+        c.close();
         return tasks;
 
     }
