@@ -43,6 +43,7 @@
     <string name="title_activity_change_task">ChangeTaskActivity</string>
     <string name="title_activity_wish_list_input">WishListInputActivity</string>
     <string name="title_activity_change_wish">ChangeWish</string>
+    <string name="title_activity_change_album">ChangeAlbum</string>
     <string name="title_activity_grid_view_testing">GridViewTesting</string>
     <string name="title_activity_calendar_view">CalendarViewActivity</string>
     <string name="PetActivity">PetActivtiy</string>

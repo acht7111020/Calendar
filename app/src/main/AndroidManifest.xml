@@ -43,10 +43,7 @@
             android:name=".NoteActivity"
             android:label="@string/title_activity_note" >
         </activity>
-        <activity
-            android:name=".JournalActivity_card"
-            android:label="@string/title_activity_journal_activity_card" >
-        </activity>
+
         <activity
             android:name=".FileActivity"
             android:label="@string/title_activity_file" >
@@ -98,6 +95,10 @@
         <activity
             android:name=".AlbumInputActivity"
             android:label="@string/title_activity_album_input" >
+        </activity>
+        <activity
+            android:name=".ChangeAlbum"
+            android:label="@string/title_activity_change_album" >
         </activity>
     </application>
 

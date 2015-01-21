@@ -40,9 +40,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import sqlite.helper.AlbumDBhelper;
 import sqlite.helper.CalendarAllDBhelper;
 import sqlite.helper.CalendarDBhelper;
 import sqlite.helper.TodoDatabaseHelper;
+import sqlite.model.Album;
 import sqlite.model.Journal;
 import sqlite.model.Task;
 
@@ -53,6 +55,7 @@ public class CalendarViewActivity extends Activity {
     public CalendarDBhelper db;
     public TodoDatabaseHelper db2;
     public CalendarAllDBhelper db3;
+    public AlbumDBhelper db4;
     private String prefix;
     public Calendar month;
     public ListView list ;
@@ -65,7 +68,7 @@ public class CalendarViewActivity extends Activity {
     private TextView onclickdate;
     private TextView olddate;
     private View view;
-    public int[] image = new int[]{R.drawable.happy , R.drawable.medicine , R.drawable.meeting , R.drawable.deadline,
+    public int[] image = new int[]{R.drawable.happy , R.drawable.love_2 , R.drawable.meeting , R.drawable.deadline,
             R.drawable.pencil};
 
     public List<Map<String, Object>> listview_list ;
@@ -90,6 +93,7 @@ public class CalendarViewActivity extends Activity {
         db = CalendarDBhelper.getInstance(this);
         db2=TodoDatabaseHelper.getInstance(this);
         db3=CalendarAllDBhelper.getInstance(this);
+        db4=AlbumDBhelper.getInstance(this);
         list = (ListView)findViewById(R.id.dailyView1);
         plus = (ImageView)findViewById(R.id.calendar_todo);
 
@@ -138,10 +142,14 @@ public class CalendarViewActivity extends Activity {
         gridview.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 onclickdate = (TextView)v.findViewById(R.id.day);
-                onclickdate.setBackgroundColor(Color.argb(150,204,255,204));
-                if(olddate!=null){
-                    olddate.setBackgroundResource(R.drawable.pink_calendar2);
+
+                if(olddate!=null ){
+                    if(olddate.getText().toString().equals(Integer.toString(today))){
+                        olddate.setBackgroundResource(R.drawable.blue_nowday);
+                    }
+                    else olddate.setBackgroundResource(R.drawable.pink_calendar2);
                 }
+                onclickdate.setBackgroundColor(Color.argb(150,204,255,204));
                 olddate = onclickdate;
 
                // v.setBackgroundResource(R.drawable.onclick_calendarback);
@@ -160,7 +168,7 @@ public class CalendarViewActivity extends Activity {
 
                 db3.deleteCalendar(id);
 
-                listview_list.get(index).clear();
+                listview_list.remove(index);
                 month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH),today);
                 refreshCalendar();
 
@@ -192,6 +200,7 @@ public class CalendarViewActivity extends Activity {
         List<Journal> journallist = db.getJournalByDate(daynow);
         List<Task> tasklist = db2.getTasksByDate(daynow);
         List<sqlite.model.Calendar> calendars = db3.getCalendarsByDate(daynow);
+        List<Album> albums =db4.getAlbumByDate(daynow);
 
         if(calendars.size()!=0){
             for(sqlite.model.Calendar cal :calendars){
@@ -233,6 +242,19 @@ public class CalendarViewActivity extends Activity {
                 map.put("title", title);
                 map.put("info", info);
                 map.put("listview_icon",image[3]);
+                map.put("id",id);
+                listview_list.add(map);
+            }
+        }
+        if(albums.size()!=0){
+            for(Album album: albums){
+                String title = album.getTitle();
+                String info = album.getDescrip();
+                long id=album.getId();
+                Map map = new HashMap<String, Object>();
+                map.put("title", title);
+                map.put("info", info);
+                map.put("listview_icon",image[1]);
                 map.put("id",id);
                 listview_list.add(map);
             }
@@ -345,7 +367,7 @@ public class CalendarViewActivity extends Activity {
         //WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         //int xPos =  (windowManager.getDefaultDisplay().getHeight() / 2  - 100);
 
-        popupWindow.showAtLocation(view, Gravity.LEFT ,0,380);
+        popupWindow.showAtLocation(view, Gravity.LEFT ,0,430);
 
 
         dowrite = (EditText)view.findViewById(R.id.popup_write);
@@ -382,6 +404,9 @@ public class CalendarViewActivity extends Activity {
                 month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH),today);
                 refreshCalendar();
 
+                dotimepicker1.setText("");
+                dotimepicker2.setText("");
+                dowrite.setText("");
                 if (popupWindow != null) {
                    popupWindow.dismiss();
                 }
