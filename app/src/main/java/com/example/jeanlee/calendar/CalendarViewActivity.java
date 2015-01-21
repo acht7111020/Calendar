@@ -40,9 +40,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import sqlite.helper.AlbumDBhelper;
 import sqlite.helper.CalendarAllDBhelper;
 import sqlite.helper.CalendarDBhelper;
 import sqlite.helper.TodoDatabaseHelper;
+import sqlite.model.Album;
 import sqlite.model.Journal;
 import sqlite.model.Task;
 
@@ -53,6 +55,7 @@ public class CalendarViewActivity extends Activity {
     public CalendarDBhelper db;
     public TodoDatabaseHelper db2;
     public CalendarAllDBhelper db3;
+    public AlbumDBhelper db4;
     private String prefix;
     public Calendar month;
     public ListView list ;
@@ -65,7 +68,7 @@ public class CalendarViewActivity extends Activity {
     private TextView onclickdate;
     private TextView olddate;
     private View view;
-    public int[] image = new int[]{R.drawable.happy , R.drawable.medicine , R.drawable.meeting , R.drawable.deadline,
+    public int[] image = new int[]{R.drawable.happy , R.drawable.love_2 , R.drawable.meeting , R.drawable.deadline,
             R.drawable.pencil};
 
     public List<Map<String, Object>> listview_list ;
@@ -90,6 +93,7 @@ public class CalendarViewActivity extends Activity {
         db = CalendarDBhelper.getInstance(this);
         db2=TodoDatabaseHelper.getInstance(this);
         db3=CalendarAllDBhelper.getInstance(this);
+        db4=AlbumDBhelper.getInstance(this);
         list = (ListView)findViewById(R.id.dailyView1);
         plus = (ImageView)findViewById(R.id.calendar_todo);
 
@@ -192,6 +196,7 @@ public class CalendarViewActivity extends Activity {
         List<Journal> journallist = db.getJournalByDate(daynow);
         List<Task> tasklist = db2.getTasksByDate(daynow);
         List<sqlite.model.Calendar> calendars = db3.getCalendarsByDate(daynow);
+        List<Album> albums =db4.getAlbumByDate(daynow);
 
         if(calendars.size()!=0){
             for(sqlite.model.Calendar cal :calendars){
@@ -237,7 +242,20 @@ public class CalendarViewActivity extends Activity {
                 listview_list.add(map);
             }
         }
-
+        if(albums.size()!=0){
+            for(Album album: albums){
+                String title = album.getTitle();
+                String info = album.getDescrip();
+                long id=album.getId();
+                Map map = new HashMap<String, Object>();
+                map.put("title", title);
+                map.put("info", info);
+                map.put("listview_icon",image[1]);
+                map.put("id",id);
+                listview_list.add(map);
+            }
+        }
+        
         SimpleAdapter listadapter = new SimpleAdapter(CalendarViewActivity.this, listview_list, R.layout.listview_item,
                 new String[]{"title", "info", "listview_icon","id"},
                 new int[]{R.id.title, R.id.info, R.id.listview_icon,R.id.id}

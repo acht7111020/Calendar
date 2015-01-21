@@ -39,7 +39,7 @@ import sqlite.model.Album;
 public class ChangeAlbum extends ActionBarActivity {
     /*   static final int REQUEST_IMAGE_CAPTURE = 1;
            private ImageView mImageView;*/
-    private AlbumDBhelper db;
+    protected AlbumDBhelper db;
     /**request Code 从相册选择照片并裁切**/
     private final static int SELECT_PIC=123;
     /**request Code 从相册选择照片不裁切**/
@@ -113,8 +113,6 @@ public class ChangeAlbum extends ActionBarActivity {
         long id=intent.getLongExtra("id",-1);
         db = AlbumDBhelper.getInstance(this);
 
-        imageUri=Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"));
-
         albumnow = db.getAlbum(id);
         title.setText(albumnow.getTitle());
         descrip.setText(albumnow.getDescrip());
@@ -125,6 +123,8 @@ public class ChangeAlbum extends ActionBarActivity {
         imgShow.setImageBitmap(bitmap);
         imgShow.setVisibility(View.VISIBLE);
 
+
+        imageUri=Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"));
 
         mDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

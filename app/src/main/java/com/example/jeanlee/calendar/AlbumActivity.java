@@ -70,16 +70,15 @@ public class AlbumActivity extends ActionBarActivity {
             }
         });
 
-
-        listAlbum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+        listAlbum.setClickable(true);
+        listAlbum.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent intent = new Intent(AlbumActivity.this, ChangeAlbum.class);
                 Album album=albums.get(position);
                 intent.putExtra("id",album.getId());
                 Log.e("id!!!!!",""+album.getId());
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent , 100);
+
 
             }
         });
