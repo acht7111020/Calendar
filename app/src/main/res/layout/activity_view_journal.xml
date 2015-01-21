@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="20dp"
-    android:background="@drawable/list_background_copy">
+    android:background="@drawable/journal_back_ground">
 
     <ListView
         android:id="@+id/listView1"

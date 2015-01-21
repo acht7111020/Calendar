@@ -2,6 +2,7 @@ package com.example.jeanlee.calendar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -41,7 +42,7 @@ public class WishListActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_task);
+        setContentView(R.layout.activity_view_wish);
         db=CalendarDBhelper.getInstance(this);
         list = db.getAllWishes();
         adapt = new MyAdapter(this,R.layout.activity_wish_list,list);
@@ -137,6 +138,7 @@ public class WishListActivity extends ActionBarActivity {
                         parent, false);
                 chk = (CheckBox) convertView.findViewById(R.id.chkStatus);
                 convertView.setTag(chk);
+                convertView.setBackgroundColor(Color.argb(150,255,255,255));
 
                 chk.setOnClickListener(new View.OnClickListener() {
 

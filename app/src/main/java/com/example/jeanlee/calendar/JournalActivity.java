@@ -43,7 +43,7 @@ public class JournalActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_task);
+        setContentView(R.layout.activity_view_journal);
         db=CalendarDBhelper.getInstance(this);
         list = db.getAllJournals();
         adapt = new MyAdapter(this, R.layout.journal_row, list);
