@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -84,13 +85,20 @@ public class CalendarAdapter extends BaseAdapter  {
         View v = convertView;
         TextView dayView;
         if (convertView == null) {  // if it's not recycled, initialize some attributes
-           // LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-           // v = vi.inflate(R.layout.gridview_item, null);
+         /*  LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = vi.inflate(R.layout.gridview_item ,parent, false);
+            AbsListView.LayoutParams layoutParams = (AbsListView.LayoutParams) v.getLayoutParams();
+            {vi.inflate(R.layout.activity_calendar_view ,parent, false);}
+            layoutParams.width = android.view.ViewGroup.LayoutParams.FILL_PARENT;
+            layoutParams.height = layoutParams.height/5 ;
+            v.setLayoutParams(layoutParams);*/
             v = LayoutInflater.from(mContext).inflate(R.layout.gridview_item, null);
 
             AbsListView.LayoutParams param = new AbsListView.LayoutParams(
                     android.view.ViewGroup.LayoutParams.FILL_PARENT,
-                    140);
+                    170);
+            Log.e("fillparents",""+android.view.ViewGroup.LayoutParams.FILL_PARENT);
+            Log.e("hiiiiii",""+v.getHeight());
             v.setLayoutParams(param);
         }
 

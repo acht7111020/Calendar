@@ -88,7 +88,7 @@ public class ChangeJournal extends ActionBarActivity {
         intent=getIntent();
         long id=intent.getLongExtra("id",-1);
         db=CalendarDBhelper.getInstance(this);
-        Log.e("where are you","whereare you ");
+
             journal=db.getJournal(id);
 
             mTitleText.setText(journal.getTitle().toString());
@@ -99,7 +99,7 @@ public class ChangeJournal extends ActionBarActivity {
                 public void onClick(View view) {
                     addJournalNow(mTitleText,mDescripText,mDate,journal);
                     setResult(100, intent);
-                    Log.e("chanfe","change");
+
                     finish();
 
                 }
@@ -108,7 +108,7 @@ public class ChangeJournal extends ActionBarActivity {
 
             cancelButton.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
-                    Log.e("chanfe","change2");
+
                     finish();
                     return;
                 }
