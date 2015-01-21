@@ -123,7 +123,7 @@ public class ChangeTaskActivity extends ActionBarActivity {
         String sTitle = newTask.getText().toString();
         String sDate=date.getText().toString();
         if (sTitle.equalsIgnoreCase("")) {
-            Toast.makeText(this, "enter the task description first!!",
+            Toast.makeText(this, "Enter the task description first!!",
                     Toast.LENGTH_LONG).show();
         } else {
             t.setTaskName(sTitle);
@@ -138,11 +138,11 @@ public class ChangeTaskActivity extends ActionBarActivity {
 
 
 
-
-    private void makeToast() {
-        Toast.makeText(ChangeTaskActivity.this, "Please maintain a summary",
-                Toast.LENGTH_LONG).show();
-    }
+//
+//    private void makeToast() {
+//        Toast.makeText(ChangeTaskActivity.this, "Please maintain a summary",
+//                Toast.LENGTH_LONG).show();
+//    }
 
 
     @Override

@@ -123,7 +123,7 @@ public class ChangeJournal extends ActionBarActivity {
         String sDescrip= descrip.getText().toString();
         String sDate=mDate.getText().toString();
         if (sTitle.equalsIgnoreCase("")) {
-            Toast.makeText(this, "enter the task description first!!",
+            Toast.makeText(this, "Enter the journal description first!!",
                     Toast.LENGTH_LONG).show();
         } else {
             j.setDescrip(sDescrip);
@@ -137,10 +137,10 @@ public class ChangeJournal extends ActionBarActivity {
     }
 
 
-    private void makeToast() {
-        Toast.makeText(ChangeJournal.this, "Please maintain a summary",
-                Toast.LENGTH_LONG).show();
-    }
+//    private void makeToast() {
+//        Toast.makeText(ChangeJournal.this, "Please maintain a summary",
+//                Toast.LENGTH_LONG).show();
+//    }
 
 
     @Override

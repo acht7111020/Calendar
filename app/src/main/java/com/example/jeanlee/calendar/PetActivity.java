@@ -2,6 +2,7 @@ package com.example.jeanlee.calendar;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -36,7 +37,6 @@ public class PetActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_grid_view_ex);
         setContentView(R.layout.activity_pet);
         db=TodoDatabaseHelper.getInstance(this);
         taskCount =db.getTaskCount();
@@ -46,7 +46,6 @@ public class PetActivity extends ActionBarActivity {
         gridview.setAdapter(new ImageAdapter(PetActivity.this));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(PetActivity.this, "" + id, Toast.LENGTH_SHORT).show();
             }
         });
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.pink));
@@ -85,15 +84,19 @@ public class PetActivity extends ActionBarActivity {
             }
 
             if(position==0 && taskCount>=5){
-
+                imageView.setBackgroundColor(Color.argb(150, 255, 255, 255));
                 imageView.setImageResource(mThumbIds[position]);
             }
 
             if(position==1 && taskCount>=10){
                 imageView.setImageResource(mThumbIds[position]);
+                imageView.setBackgroundColor(Color.argb(150, 255, 255, 255));
+
             }
             if(position==2 && taskCount>=15){
                 imageView.setImageResource(mThumbIds[position]);
+                imageView.setBackgroundColor(Color.argb(150, 255, 255, 255));
+
             }
 
 //            Bitmap imageBitmap =decodeSampledBitmapFromResource(getResources(),mThumbIds[position],

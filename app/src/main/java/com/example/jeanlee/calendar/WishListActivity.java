@@ -149,11 +149,11 @@ public class WishListActivity extends ActionBarActivity {
                         changeWish.setStatus(cb.isChecked() == true ? 1 : 0);
                         db.updateWish(changeWish);
 
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() + " is "
-                                        + cb.isChecked(), Toast.LENGTH_LONG)
-                                .show();
+//                        Toast.makeText(
+//                                getApplicationContext(),
+//                                "Clicked on Checkbox: " + cb.getText() + " is "
+//                                        + cb.isChecked(), Toast.LENGTH_LONG)
+//                                .show();
                     }
 
                 });

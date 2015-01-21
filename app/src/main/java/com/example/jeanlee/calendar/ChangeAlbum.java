@@ -154,21 +154,22 @@ public class ChangeAlbum extends ActionBarActivity {
         String sDescrip= descrip.getText().toString();
         String sDate=mDate.getText().toString();
         if (sTitle.equalsIgnoreCase("")) {
-            Toast.makeText(this, "enter the task description first!!",
+            Toast.makeText(this, "enter the Album title first!!",
                     Toast.LENGTH_LONG).show();
         } else {
             album.setDescrip(sDescrip);
             album.setTitle(sTitle);
             album.setDateAt(sDate);
+            album.setPhoto(photo_crop);
             db.updateAlbum(album);
 
         }
 
     }
-    private void makeToast() {
-        Toast.makeText(ChangeAlbum.this, "Please maintain a summary",
-                Toast.LENGTH_LONG).show();
-    }
+//    private void makeToast() {
+//        Toast.makeText(ChangeAlbum.this, "Please maintain a summary",
+//                Toast.LENGTH_LONG).show();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

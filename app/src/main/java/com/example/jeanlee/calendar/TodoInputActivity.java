@@ -87,7 +87,7 @@ public class TodoInputActivity extends ActionBarActivity {
             public void onClick(View view) {
                 addTaskNow(mTitleText, mDate);
                 if (TextUtils.isEmpty(mTitleText.getText().toString())) {
-                    makeToast();
+                   // makeToast();
                 } else {
                     setResult(RESULT_OK);
                     finish();
@@ -123,7 +123,7 @@ public class TodoInputActivity extends ActionBarActivity {
         String s = t.getText().toString();
         String sdate=date.getText().toString();
         if (s.equalsIgnoreCase("")) {
-            Toast.makeText(this, "enter the task description first!!",
+            Toast.makeText(this, "Enter the task title first!!",
                     Toast.LENGTH_LONG).show();
         } else {
             Task task = new Task(s, 0,sdate);
@@ -141,12 +141,12 @@ public class TodoInputActivity extends ActionBarActivity {
     }
 
 
-
-    private void makeToast() {
-        Toast.makeText(TodoInputActivity.this, "Please maintain a summary",
-                Toast.LENGTH_LONG).show();
-    }
-
+//
+//    private void makeToast() {
+//        Toast.makeText(TodoInputActivity.this, "Please maintain a summary",
+//                Toast.LENGTH_LONG).show();
+//    }
+//
 
 
 }

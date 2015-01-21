@@ -47,7 +47,7 @@ public class WishListInputActivity extends ActionBarActivity {
             public void onClick(View view) {
                 addWishNow(mTitleText);
                 if (TextUtils.isEmpty(mTitleText.getText().toString())) {
-                    makeToast();
+                   // makeToast();
                 } else {
                     setResult(RESULT_OK);
                     finish();
@@ -82,7 +82,7 @@ public class WishListInputActivity extends ActionBarActivity {
         db=CalendarDBhelper.getInstance(this);
         String s = t.getText().toString();
         if (s.equalsIgnoreCase("")) {
-            Toast.makeText(this, "enter the task description first!!",
+            Toast.makeText(this, "Enter the wish description first!!",
                     Toast.LENGTH_LONG).show();
         } else {
             Wish wish = new Wish(s, 0);
@@ -100,11 +100,11 @@ public class WishListInputActivity extends ActionBarActivity {
     }
 
 
-
-    private void makeToast() {
-        Toast.makeText(WishListInputActivity.this, "Please maintain a summary",
-                Toast.LENGTH_LONG).show();
-    }
+//
+//    private void makeToast() {
+//        Toast.makeText(WishListInputActivity.this, "Please maintain a summary",
+//                Toast.LENGTH_LONG).show();
+//    }
 
 
 

@@ -88,7 +88,7 @@ public class JournalInputActivity extends ActionBarActivity {
                 public void onClick(View view) {
                     addJournalNow(mTitleText,mDescripText,mDate);
                     if (TextUtils.isEmpty(mTitleText.getText().toString())) {
-                        makeToast();
+                       // makeToast();
                     } else {
                         setResult(RESULT_OK);
                         finish();
@@ -115,7 +115,7 @@ public class JournalInputActivity extends ActionBarActivity {
         String sDescrip= descrip.getText().toString();
         String sDate=mDate.getText().toString();
         if (sTitle.equalsIgnoreCase("")) {
-            Toast.makeText(this, "enter the task description first!!",
+            Toast.makeText(this, "enter the Journal description first!!",
                     Toast.LENGTH_LONG).show();
         } else {
             Journal journal = new Journal(sTitle, sDescrip,sDate);
@@ -136,11 +136,11 @@ public class JournalInputActivity extends ActionBarActivity {
     }
 
 
-
-    private void makeToast() {
-        Toast.makeText(JournalInputActivity.this, "Please maintain a summary",
-                Toast.LENGTH_LONG).show();
-    }
+//
+//    private void makeToast() {
+//        Toast.makeText(JournalInputActivity.this, "Please maintain a summary",
+//                Toast.LENGTH_LONG).show();
+//    }
 
 
     @Override
