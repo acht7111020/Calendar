@@ -145,7 +145,7 @@ public class CalendarViewActivity extends Activity {
 
                 if(olddate!=null ){
                     if(olddate.getText().toString().equals(Integer.toString(today))){
-                        olddate.setBackgroundColor(Color.argb(255,130,115,255));
+                        olddate.setBackgroundResource(R.drawable.blue_nowday);
                     }
                     else olddate.setBackgroundResource(R.drawable.pink_calendar2);
                 }
