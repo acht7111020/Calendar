@@ -125,7 +125,7 @@ public class AlbumActivity extends ActionBarActivity {
                         //cv.put("picture",out.toByteArray());
 
                         imgShow.setImageBitmap(bitmap);
-                        bitmap.recycle();
+                       //bitmap.recycle();
 
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
