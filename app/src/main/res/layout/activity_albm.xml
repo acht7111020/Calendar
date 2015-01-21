@@ -20,6 +20,6 @@
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:numColumns="2"
-        android:listSelector="#FFFFFF"
+        android:listSelector="#e0ffbef8"
         />
 </LinearLayout>

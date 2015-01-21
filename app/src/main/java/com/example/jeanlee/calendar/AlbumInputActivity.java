@@ -110,7 +110,7 @@ public class AlbumInputActivity extends ActionBarActivity {
             public void onClick(View view) {
                 addAlbumNow(title, descrip, mDate);
                 if (TextUtils.isEmpty(title.getText().toString())) {
-                    makeToast();
+                  //  makeToast();
                 } else {
                     setResult(RESULT_OK);
                     finish();
@@ -151,10 +151,10 @@ public class AlbumInputActivity extends ActionBarActivity {
         }
 
     }
-    private void makeToast() {
-        Toast.makeText(AlbumInputActivity.this, "Please maintain a summary",
-                Toast.LENGTH_LONG).show();
-    }
+//    private void makeToast() {
+//        Toast.makeText(AlbumInputActivity.this, "Please maintain a summary",
+//                Toast.LENGTH_LONG).show();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -252,6 +252,12 @@ public class AlbumInputActivity extends ActionBarActivity {
                     try {
                         Bitmap bitmap=BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));//将imageUri对象的图片加载到内存
                         imgShow.setImageBitmap(bitmap);
+                        
+                        ByteArrayOutputStream out =new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG,100,out);
+                        photo_crop = out.toByteArray();
+                        imgShow.setVisibility(View.VISIBLE);
+                        save.setVisibility(View.VISIBLE);
                     } catch (FileNotFoundException e) {
 
                         e.printStackTrace();

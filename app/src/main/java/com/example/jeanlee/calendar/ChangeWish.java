@@ -89,7 +89,7 @@ public class ChangeWish extends ActionBarActivity {
     public void addWishNow(EditText newTask,Wish w) {
         String sTitle = newTask.getText().toString();
         if (sTitle.equalsIgnoreCase("")) {
-            Toast.makeText(this, "enter the task description first!!",
+            Toast.makeText(this, "enter the Wish description first!!",
                     Toast.LENGTH_LONG).show();
         } else {
             w.setWishName(sTitle);

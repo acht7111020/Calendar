@@ -90,7 +90,7 @@ public class CalendarAdapter extends BaseAdapter  {
 
             AbsListView.LayoutParams param = new AbsListView.LayoutParams(
                     android.view.ViewGroup.LayoutParams.FILL_PARENT,
-                    140);
+                    170);
             v.setLayoutParams(param);
         }
 

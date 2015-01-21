@@ -367,7 +367,7 @@ public class CalendarViewActivity extends Activity {
         //WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         //int xPos =  (windowManager.getDefaultDisplay().getHeight() / 2  - 100);
 
-        popupWindow.showAtLocation(view, Gravity.LEFT ,0,430);
+        popupWindow.showAtLocation(view, Gravity.LEFT ,0,-400);
 
 
         dowrite = (EditText)view.findViewById(R.id.popup_write);

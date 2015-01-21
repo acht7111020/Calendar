@@ -191,11 +191,12 @@ public class TodoActivity extends ActionBarActivity {
                         changeTask.setStatus(cb.isChecked() == true ? 1 : 0);
 
                         db.updateTask(changeTask);
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() + " is "
-                                        + cb.isChecked(), Toast.LENGTH_LONG)
-                                .show();
+//                        Toast.makeText(
+//                                getApplicationContext(),
+//                                "Clicked on Checkbox: " + cb.getText() + " is "
+//                                        + cb.isChecked(), Toast.LENGTH_LONG)
+//                                .show();
+
                     }
 
                 });
