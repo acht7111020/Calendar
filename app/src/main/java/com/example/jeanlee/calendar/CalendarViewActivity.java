@@ -142,10 +142,14 @@ public class CalendarViewActivity extends Activity {
         gridview.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 onclickdate = (TextView)v.findViewById(R.id.day);
-                onclickdate.setBackgroundColor(Color.argb(150,204,255,204));
-                if(olddate!=null){
-                    olddate.setBackgroundResource(R.drawable.pink_calendar2);
+
+                if(olddate!=null ){
+                    if(olddate.getText().toString().equals(Integer.toString(today))){
+                        olddate.setBackgroundColor(Color.argb(255,130,115,255));
+                    }
+                    else olddate.setBackgroundResource(R.drawable.pink_calendar2);
                 }
+                onclickdate.setBackgroundColor(Color.argb(150,204,255,204));
                 olddate = onclickdate;
 
                // v.setBackgroundResource(R.drawable.onclick_calendarback);
@@ -164,7 +168,7 @@ public class CalendarViewActivity extends Activity {
 
                 db3.deleteCalendar(id);
 
-                listview_list.get(index).clear();
+                listview_list.remove(index);
                 month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH),today);
                 refreshCalendar();
 
@@ -255,7 +259,7 @@ public class CalendarViewActivity extends Activity {
                 listview_list.add(map);
             }
         }
-        
+
         SimpleAdapter listadapter = new SimpleAdapter(CalendarViewActivity.this, listview_list, R.layout.listview_item,
                 new String[]{"title", "info", "listview_icon","id"},
                 new int[]{R.id.title, R.id.info, R.id.listview_icon,R.id.id}
@@ -363,7 +367,7 @@ public class CalendarViewActivity extends Activity {
         //WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         //int xPos =  (windowManager.getDefaultDisplay().getHeight() / 2  - 100);
 
-        popupWindow.showAtLocation(view, Gravity.LEFT ,0,380);
+        popupWindow.showAtLocation(view, Gravity.LEFT ,0,430);
 
 
         dowrite = (EditText)view.findViewById(R.id.popup_write);
@@ -400,6 +404,9 @@ public class CalendarViewActivity extends Activity {
                 month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH),today);
                 refreshCalendar();
 
+                dotimepicker1.setText("");
+                dotimepicker2.setText("");
+                dowrite.setText("");
                 if (popupWindow != null) {
                    popupWindow.dismiss();
                 }

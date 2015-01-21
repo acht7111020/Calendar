@@ -24,10 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sqlite.helper.AlbumDBhelper;
 import sqlite.helper.CalendarAllDBhelper;
 import sqlite.helper.CalendarDBhelper;
 import sqlite.helper.TodoDatabaseHelper;
 import sqlite.helper.DataBaseHelper;
+import sqlite.model.Album;
 import sqlite.model.Journal;
 import sqlite.model.Task;
 
@@ -42,6 +44,7 @@ public class CalendarAdapter extends BaseAdapter  {
     private CalendarDBhelper db;
     private TodoDatabaseHelper db2;
     private CalendarAllDBhelper db3;
+    private AlbumDBhelper db4;
     private Context mContext;
     private Calendar month;
     private Calendar selectedDate;
@@ -50,6 +53,7 @@ public class CalendarAdapter extends BaseAdapter  {
     private ImageView icon1;
     private ImageView icon2;
     private ImageView icon3;
+    private ImageView icon4;
     private ListView list;
 
     public CalendarAdapter(Context c, Calendar monthCalendar ) {
@@ -96,6 +100,7 @@ public class CalendarAdapter extends BaseAdapter  {
         icon1 = (ImageView)v.findViewById(R.id.grid_icon1);
         icon2 = (ImageView)v.findViewById(R.id.grid_icon2);
         icon3 = (ImageView)v.findViewById(R.id.grid_icon3);
+        icon4 = (ImageView)v.findViewById(R.id.grid_icon4);
         // disable empty days from the beginning
         if(days[position].equals("") ) {
             dayView.setClickable(false);
@@ -118,6 +123,7 @@ public class CalendarAdapter extends BaseAdapter  {
             db = CalendarDBhelper.getInstance(mContext);
             db2=TodoDatabaseHelper.getInstance(mContext);
             db3=CalendarAllDBhelper.getInstance(mContext);
+            db4=AlbumDBhelper.getInstance(mContext);
             int mon = month.get(Calendar.MONTH)+1;
             String prefix = month.get(Calendar.YEAR)+"/"+mon+"/";
             String daynow = prefix+days[position];
@@ -126,6 +132,7 @@ public class CalendarAdapter extends BaseAdapter  {
             List<Journal> journal = db.getJournalByDate(daynow);
             List<Task> task = db2.getTasksByDate(daynow);
             List<sqlite.model.Calendar> calendars = db3.getCalendarsByDate(daynow);
+            List<Album> albums = db4.getAlbumByDate(daynow);
             if(calendars.size()!=0){
                 icon1.setImageResource(R.drawable.pencil);
                 icon1.setVisibility(View.VISIBLE);
@@ -136,12 +143,32 @@ public class CalendarAdapter extends BaseAdapter  {
                     if(task.size() != 0){
                         icon3.setImageResource(R.drawable.deadline);
                         icon3.setVisibility(View.VISIBLE);
+                        if(albums.size()!=0){
+                            icon4.setImageResource(R.drawable.love_2);
+                            icon4.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else{
+                        if(albums.size()!=0) {
+                            icon3.setImageResource(R.drawable.love_2);
+                            icon3.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
                 else{
                     if(task.size() != 0){
                         icon2.setImageResource(R.drawable.deadline);
-                        icon2.setVisibility(View.VISIBLE);
+                        icon2.setVisibility(View.VISIBLE);if(albums.size()!=0)
+                        if(albums.size()!=0){
+                            icon3.setImageResource(R.drawable.love_2);
+                            icon3.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else{
+                        if(albums.size()!=0) {
+                            icon2.setImageResource(R.drawable.love_2);
+                            icon2.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -152,12 +179,33 @@ public class CalendarAdapter extends BaseAdapter  {
                     if (task.size() != 0) {
                         icon2.setImageResource(R.drawable.deadline);
                         icon2.setVisibility(View.VISIBLE);
+                        if(albums.size()!=0){
+                            icon3.setImageResource(R.drawable.love_2);
+                            icon3.setVisibility(View.VISIBLE);
+                        }
                     }
+                    else{
+                        if(albums.size()!=0) {
+                            icon2.setImageResource(R.drawable.love_2);
+                            icon2.setVisibility(View.VISIBLE);
+                        }
+                    }
+
                 }
                 else{
                     if(task.size() != 0 ){
                         icon1.setImageResource(R.drawable.deadline);
                         icon1.setVisibility(View.VISIBLE);
+                        if(albums.size()!=0){
+                            icon2.setImageResource(R.drawable.love_2);
+                            icon2.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else{
+                        if(albums.size()!=0) {
+                            icon1.setImageResource(R.drawable.love_2);
+                            icon1.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
