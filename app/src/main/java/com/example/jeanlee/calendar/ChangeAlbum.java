@@ -134,7 +134,7 @@ public class ChangeAlbum extends ActionBarActivity {
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 addAlbumNow(title, descrip, mDate , albumnow);
-                setResult(RESULT_OK);
+                setResult(100, intent);
                 finish();
 
             }

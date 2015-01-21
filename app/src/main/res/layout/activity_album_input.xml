@@ -29,8 +29,8 @@
                 <Button
                     android:visibility="invisible"
                     android:layout_weight="1"
-                    android:layout_width="150px"
-                    android:layout_height="75px"
+                    android:layout_width="80sp"
+                    android:layout_height="50sp"
                     android:id="@+id/album_save"
                     android:text="save"
                     android:textSize="14sp"
@@ -38,8 +38,8 @@
                 <Button
 
                     android:layout_weight="1"
-                    android:layout_width="150px"
-                    android:layout_height="75px"
+                    android:layout_width="80sp"
+                    android:layout_height="50sp"
                     android:id="@+id/album_cancel"
                     android:text="cancel"
                     android:textSize="14sp"

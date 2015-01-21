@@ -126,6 +126,7 @@ public class AlbumActivity extends ActionBarActivity {
             startActivity(intent);
         }
     }
+
     private class MyAdapter extends ArrayAdapter<Album> {
 
         Context context;
