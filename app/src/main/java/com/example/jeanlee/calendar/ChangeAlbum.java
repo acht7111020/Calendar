@@ -94,11 +94,10 @@ public class ChangeAlbum extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("hey","1");
         setContentView(R.layout.activity_album_input);
+        Log.e("hey","2");
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.pink));
-
-        db=AlbumDBhelper.getInstance(this);
-        imageUri=Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"));
 
         imgShow=(ImageView)findViewById(R.id.imgtaken);
         title = (EditText)findViewById(R.id.album_title);
@@ -108,22 +107,22 @@ public class ChangeAlbum extends ActionBarActivity {
         cancel = (Button)findViewById(R.id.album_cancel);
         mDate = (EditText)findViewById(R.id.album_datetext);
 
-
          /* Get values from Intent */
         intent=getIntent();
         Log.e("whrer are u","where r u");
         long id=intent.getLongExtra("id",-1);
         db = AlbumDBhelper.getInstance(this);
+
+        imageUri=Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "test.jpg"));
+
         albumnow = db.getAlbum(id);
         title.setText(albumnow.getTitle());
         descrip.setText(albumnow.getDescrip());
         mDate.setText(albumnow.getDateAt());
         photo_crop = albumnow.getPhoto();
         Bitmap bitmap = BitmapFactory.decodeByteArray( photo_crop,0, photo_crop.length,null);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
-        Drawable drawable = bitmapDrawable;
         // Populate the data into the template view using the data object
-        imgShow.setImageDrawable(drawable);
+        imgShow.setImageBitmap(bitmap);
         imgShow.setVisibility(View.VISIBLE);
 
 
@@ -203,6 +202,7 @@ public class ChangeAlbum extends ActionBarActivity {
             case SELECT_PIC:
                 if (resultCode==RESULT_OK) {//从相册选择照片并裁切
                     try {
+                        imgShow.clearAnimation();
                         Bitmap bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         imgShow.setImageBitmap(bitmap);
                         ByteArrayOutputStream out =new ByteArrayOutputStream();
