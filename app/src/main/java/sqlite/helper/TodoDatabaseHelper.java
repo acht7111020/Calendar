@@ -5,6 +5,7 @@ package sqlite.helper;
  */
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -23,6 +24,7 @@ import sqlite.model.Wish;
 
 public class TodoDatabaseHelper extends SQLiteOpenHelper{
     //initialize variable
+    private static SharedPreferences pref ;
     private static TodoDatabaseHelper sInstance;
     //Logtag
     public static final String LOG="DatabasaHelper";
@@ -30,11 +32,14 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
     public static final int DATABASE_VERSION =1;
     //Database Name
     public static final String DATABASE_NAME="TodoManager";
+    //private static int countTask;
+    private SharedPreferences.Editor edit;
 
 
 
     // table name
     private static final String TABLE_TASKS = "tasks";
+    private static final String TABLE_COUNT="count";
 
     // Common column names
     public static final String KEY_ID = "id";
@@ -43,6 +48,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
     // TASKS Table Columns names
     private static final String KEY_TASKNAME = "taskName";
     private static final String KEY_STATUS = "status";
+    private static final String KEY_COUNT="counttask";
 
 
     // Table Create Statements
@@ -51,6 +57,10 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
             + TABLE_TASKS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TASKNAME
             + " TEXT," + KEY_STATUS + " INTEGER," + KEY_DATE
             + " TEXT" + ")";
+
+    private static final String CREATE_TABLE_COUNT = "CREATE TABLE "
+            + TABLE_COUNT + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_COUNT
+            + " INTEGER" + ")";
 
 
     private String getDateTime() {
@@ -103,6 +113,13 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
 
         // creating required tables
         db.execSQL(CREATE_TABLE_TASK);
+        db.execSQL(CREATE_TABLE_COUNT);
+        //initializing my count
+        ContentValues values = new ContentValues();
+        values.put(KEY_COUNT, 0); // task name
+        long id=db.insert(TABLE_COUNT, null, values);
+        Log.e("countid","id"+id);
+
     }
 
     @Override
@@ -110,6 +127,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
         // on upgrade drop older tables
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COUNT);
         // create new tables
         onCreate(db);
     }
@@ -121,6 +139,14 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
      * create a todo item in todos table, also assigning the todo to a
      * tag name which inserts a row in todo_tags table
      */
+
+//    public long addCount(int countTask){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put(KEY_COUNT, countTask); // task name
+//        long count_id= db.insert(TABLE_COUNT, null, values);
+//        return count_id;
+//    }
 
     // Adding new task
     public long addTask(Task task) {
@@ -161,7 +187,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
         tk.setTaskName((c.getString(c.getColumnIndex(KEY_TASKNAME))));
         tk.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
         tk.setStatus(c.getInt(c.getColumnIndex(KEY_STATUS)));
-
+        c.close();
         return tk;
     }
 
@@ -191,7 +217,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
                 tasks.add(tk);
             } while (c.moveToNext());
         }
-
+        c.close();
         return tasks;
     }
 
@@ -214,25 +240,63 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
                 new String[] { String.valueOf(task.getId()) });
     }
 
+    public void updateCount(int count){
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(KEY_COUNT, count);
+
+        // updating row
+        db.update(TABLE_COUNT, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(1) });
+
+    }
 
     /*
  * Deleting a task
  */
     public void deleteTask(long task_id) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Task tk=getTask(task_id);
+        if(tk.getStatus()==1){
+            int countTask=getCount()+1;
+            updateCount(countTask);
+            Log.e("update",""+countTask);
+        };
         db.delete(TABLE_TASKS, KEY_ID + " = ?",
                 new String[] { String.valueOf(task_id) });
     }
 
 
+    public  int getCount(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String countQuery2="SELECT  * FROM " + TABLE_COUNT + " WHERE "
+                + KEY_ID + " = " + 1;
+        int count=0;
+        Cursor cursor1=db.rawQuery(countQuery2,null);
+        if (cursor1.moveToFirst()) {
+
+             count=cursor1.getInt(cursor1.getColumnIndex(KEY_COUNT));
+            Log.e("countTask",""+count);
+
+        }
+        cursor1.close();
+        return count;
+    }
     public int getTaskCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_TASKS;
+        String countQuery = "SELECT  * FROM " + TABLE_TASKS + " WHERE "
+                + KEY_STATUS + " = " + 1;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 
-        int count = cursor.getCount();
+        String countQuery2="SELECT  * FROM " + TABLE_COUNT + " WHERE "
+                + KEY_ID + " = " + 1;
+
+
+        int count = cursor.getCount()+getCount();
+        Log.e("count",""+count);
         cursor.close();
+
 
         // return count
         return count;
@@ -266,7 +330,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper{
                 tasks.add(tk);
             } while (c.moveToNext());
         }
-
+        c.close();
         return tasks;
 
     }

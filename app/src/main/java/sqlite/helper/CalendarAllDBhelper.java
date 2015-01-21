@@ -142,7 +142,7 @@ public class CalendarAllDBhelper extends SQLiteOpenHelper{
         cal.setTaskName((c.getString(c.getColumnIndex(KEY_TASKNAME))));
         cal.setDateAt(c.getString(c.getColumnIndex(KEY_DATE)));
         cal.setTime(c.getString(c.getColumnIndex(KEY_TIME)));
-
+        c.close();
         return cal;
     }
 
@@ -172,7 +172,7 @@ public class CalendarAllDBhelper extends SQLiteOpenHelper{
                 calendars.add(cal);
             } while (c.moveToNext());
         }
-
+        c.close();
         return calendars;
     }
 
@@ -234,7 +234,7 @@ public class CalendarAllDBhelper extends SQLiteOpenHelper{
                 calendars.add(cal);
             } while (c.moveToNext());
         }
-
+        c.close();
         return calendars;
 
     }

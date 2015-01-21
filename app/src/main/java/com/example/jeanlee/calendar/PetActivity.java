@@ -24,14 +24,23 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import sqlite.helper.TodoDatabaseHelper;
+
 
 public class PetActivity extends ActionBarActivity {
+
+    private TodoDatabaseHelper db;
+    private int taskCount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //		setContentView(R.layout.activity_grid_view_ex);
         setContentView(R.layout.activity_pet);
+        db=TodoDatabaseHelper.getInstance(this);
+        taskCount =db.getTaskCount();
+        Log.e("taskcount",""+taskCount);
         //
         GridView gridview = (GridView)findViewById(R.id.gridView);
         gridview.setAdapter(new ImageAdapter(PetActivity.this));
@@ -67,14 +76,25 @@ public class PetActivity extends ActionBarActivity {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
+                imageView.setLayoutParams(new GridView.LayoutParams(500, 500));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                imageView.setPadding(0, 0, 0, 0);
 
             } else {
                 imageView = (ImageView) convertView;
             }
-            imageView.setImageResource(mThumbIds[position]);
+
+            if(position==0 && taskCount>=5){
+
+                imageView.setImageResource(mThumbIds[position]);
+            }
+
+            if(position==1 && taskCount>=10){
+                imageView.setImageResource(mThumbIds[position]);
+            }
+            if(position==2 && taskCount>=15){
+                imageView.setImageResource(mThumbIds[position]);
+            }
 
 //            Bitmap imageBitmap =decodeSampledBitmapFromResource(getResources(),mThumbIds[position],
 //                    imageView.getMeasuredWidth(),imageView.getMeasuredHeight());
