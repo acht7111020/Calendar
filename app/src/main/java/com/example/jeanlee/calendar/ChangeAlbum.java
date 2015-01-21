@@ -7,11 +7,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -31,10 +33,12 @@ import java.util.Calendar;
 import sqlite.helper.AlbumDBhelper;
 import sqlite.model.Album;
 
-
-public class AlbumInputActivity extends ActionBarActivity {
+/**
+ * Created by 心愉 on 2015/1/21.
+ */
+public class ChangeAlbum extends ActionBarActivity {
     /*   static final int REQUEST_IMAGE_CAPTURE = 1;
-       private ImageView mImageView;*/
+           private ImageView mImageView;*/
     private AlbumDBhelper db;
     /**request Code 从相册选择照片并裁切**/
     private final static int SELECT_PIC=123;
@@ -54,7 +58,8 @@ public class AlbumInputActivity extends ActionBarActivity {
     private Button save;
     private Button cancel;
     private byte[] photo_crop;
-
+    private Intent intent;
+    private Album albumnow;
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -99,8 +104,29 @@ public class AlbumInputActivity extends ActionBarActivity {
         title = (EditText)findViewById(R.id.album_title);
         descrip = (EditText)findViewById(R.id.album_descri);
         save = (Button)findViewById(R.id.album_save);
+        save.setVisibility(View.VISIBLE);
         cancel = (Button)findViewById(R.id.album_cancel);
         mDate = (EditText)findViewById(R.id.album_datetext);
+
+
+         /* Get values from Intent */
+        intent=getIntent();
+        Log.e("whrer are u","where r u");
+        long id=intent.getLongExtra("id",-1);
+        db = AlbumDBhelper.getInstance(this);
+        albumnow = db.getAlbum(id);
+        title.setText(albumnow.getTitle());
+        descrip.setText(albumnow.getDescrip());
+        mDate.setText(albumnow.getDateAt());
+        photo_crop = albumnow.getPhoto();
+        Bitmap bitmap = BitmapFactory.decodeByteArray( photo_crop,0, photo_crop.length,null);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+        Drawable drawable = bitmapDrawable;
+        // Populate the data into the template view using the data object
+        imgShow.setImageDrawable(drawable);
+        imgShow.setVisibility(View.VISIBLE);
+
+
         mDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 showDatePickerDialog(view);
@@ -108,13 +134,10 @@ public class AlbumInputActivity extends ActionBarActivity {
         });
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                addAlbumNow(title, descrip, mDate);
-                if (TextUtils.isEmpty(title.getText().toString())) {
-                    makeToast();
-                } else {
-                    setResult(RESULT_OK);
-                    finish();
-                }
+                addAlbumNow(title, descrip, mDate , albumnow);
+                setResult(RESULT_OK);
+                finish();
+
             }
         });
 
@@ -127,7 +150,7 @@ public class AlbumInputActivity extends ActionBarActivity {
 
         });
     }
-    public void addAlbumNow(EditText title,EditText descrip,EditText mDate) {
+    public void addAlbumNow(EditText title,EditText descrip,EditText mDate ,Album album) {
         String sTitle = title.getText().toString();
         String sDescrip= descrip.getText().toString();
         String sDate=mDate.getText().toString();
@@ -135,24 +158,16 @@ public class AlbumInputActivity extends ActionBarActivity {
             Toast.makeText(this, "enter the task description first!!",
                     Toast.LENGTH_LONG).show();
         } else {
-            Album album=new Album(sTitle,sDescrip,sDate);
-            album.setPhoto(photo_crop);
-            //get the id of the created journal
-            long listid=db.createAlbum(album);
-            album.setId(listid);
+            album.setDescrip(sDescrip);
+            album.setTitle(sTitle);
+            album.setDateAt(sDate);
+            db.updateAlbum(album);
 
-            title.setText("");
-            descrip.setText("");
-//            adapt.add(task);
-//            adapt.notifyDataSetChanged();
-            Intent intent = new Intent(this, AlbumActivity.class);
-            setResult(100, intent);
-            finish();
         }
 
     }
     private void makeToast() {
-        Toast.makeText(AlbumInputActivity.this, "Please maintain a summary",
+        Toast.makeText(ChangeAlbum.this, "Please maintain a summary",
                 Toast.LENGTH_LONG).show();
     }
 
@@ -160,17 +175,12 @@ public class AlbumInputActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_album_input, menu);
-        //set background
-
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()) {
             case R.id.btnCropFromGallery://从相册选择照片进行裁剪
@@ -179,12 +189,7 @@ public class AlbumInputActivity extends ActionBarActivity {
             case R.id.take_photo://从相机拍取照片进行裁剪
                 cropFromTake();
                 break;
-           /* case R.id.btnOriginal://从相册选择照片不裁切
-                selectFromGallery();
-                break;
-            case R.id.btnTakeOriginal://从相机拍取照片不裁剪
-                selectFromTake();
-                break;*/
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -203,8 +208,8 @@ public class AlbumInputActivity extends ActionBarActivity {
                         ByteArrayOutputStream out =new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG,100,out);
                         photo_crop = out.toByteArray();
-                        imgShow.setVisibility(View.VISIBLE);
-                        save.setVisibility(View.VISIBLE);
+                        //imgShow.setVisibility(View.VISIBLE);
+
                         //}
 
                         //bitmap.recycle();
@@ -286,8 +291,6 @@ public class AlbumInputActivity extends ActionBarActivity {
         startActivityForResult(intent, requestCode);
     }
 
-
-
     /**
      * 从相册选择原生的照片（不裁切）
      */
@@ -298,6 +301,7 @@ public class AlbumInputActivity extends ActionBarActivity {
         intent.setType("image/*");//从所有图片中进行选择
         startActivityForResult(intent, SELECT_ORIGINAL_PIC);
     }
+
     /**
      * 从相册选择照片进行裁剪
      */
@@ -338,5 +342,6 @@ public class AlbumInputActivity extends ActionBarActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
         startActivityForResult(intent, TAKE_PIC);
     }
+
 
 }

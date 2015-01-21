@@ -62,6 +62,8 @@ public class CalendarViewActivity extends Activity {
     private EditText dotimepicker2;
     private EditText dowrite;
     private ImageView plus;
+    private TextView onclickdate;
+    private TextView olddate;
     private View view;
     public int[] image = new int[]{R.drawable.happy , R.drawable.medicine , R.drawable.meeting , R.drawable.deadline,
             R.drawable.pencil};
@@ -109,6 +111,8 @@ public class CalendarViewActivity extends Activity {
                     month.set(month.get(Calendar.YEAR),month.get(Calendar.MONTH)-1,today);
                 }
                 listview_list.clear();
+                plus.setVisibility(View.INVISIBLE);
+
                 refreshCalendar();
             }
         });
@@ -124,6 +128,7 @@ public class CalendarViewActivity extends Activity {
 
                     month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH)+1,today);
                 }
+                plus.setVisibility(View.INVISIBLE);
                 listview_list.clear();
                 refreshCalendar();
 
@@ -132,12 +137,16 @@ public class CalendarViewActivity extends Activity {
 
         gridview.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                TextView date = (TextView)v.findViewById(R.id.day);
-                date.setTextColor(Color.GRAY);
-                date.setBackgroundColor(Color.argb(150,204,255,204));
+                onclickdate = (TextView)v.findViewById(R.id.day);
+                onclickdate.setBackgroundColor(Color.argb(150,204,255,204));
+                if(olddate!=null){
+                    olddate.setBackgroundResource(R.drawable.pink_calendar2);
+                }
+                olddate = onclickdate;
+
                // v.setBackgroundResource(R.drawable.onclick_calendarback);
                 plus.setVisibility(View.VISIBLE);
-                getList(date.getText().toString());
+                getList(onclickdate.getText().toString());
 
             }
         });
@@ -150,7 +159,8 @@ public class CalendarViewActivity extends Activity {
                 Log.e("map",""+id);
 
                 db3.deleteCalendar(id);
-                map.clear();
+
+                listview_list.get(index).clear();
                 month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH),today);
                 refreshCalendar();
 

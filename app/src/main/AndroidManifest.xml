@@ -6,7 +6,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -92,8 +92,12 @@
             android:label="@string/title_activity_calendar_view" >
         </activity>
         <activity
-            android:name="PetActivity"
+            android:name=".PetActivity"
             android:label="@string/PetActivity" >
+        </activity>
+        <activity
+            android:name=".AlbumInputActivity"
+            android:label="@string/title_activity_album_input" >
         </activity>
     </application>
 

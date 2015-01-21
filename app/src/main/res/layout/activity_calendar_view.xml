@@ -178,6 +178,7 @@
             android:horizontalSpacing="2dp"
             android:numColumns="7"
             android:listSelector="#FFFFFF"
+
             android:layout_weight="1"
            >
 

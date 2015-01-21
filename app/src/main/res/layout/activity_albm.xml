@@ -8,96 +8,17 @@
     android:orientation="vertical"
     tools:context="com.example.jeanlee.calendar.AlbumActivity">
 
-    <LinearLayout
-android:padding="2sp"
+
+    <GridView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        >
-        <ImageView
-
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/photo_1"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"
-            />
-        <ImageView
-            android:layout_marginLeft="10sp"
-
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/photo_2"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        android:padding="2sp"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        >
-        <ImageView
-            android:layout_marginLeft="15sp"
-
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/photo_3"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"
-            />
-        <ImageView
-            android:layout_marginLeft="18sp"
-
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/photo_1"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"
-            />
-
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:padding="2sp"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        >
-        <ImageView
-
-
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/photo_2"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"
-            />
-        <ImageView
-            android:layout_marginLeft="10sp"
-
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/photo_3"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"
-            />
-
-
-
-    </LinearLayout>
-    <ImageView
-        android:id="@+id/imgShow"
-        android:layout_marginLeft="13sp"
-        android:padding="5sp"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-
+        android:layout_height="wrap_content"
+        android:id="@+id/gridView2"
+        android:layout_gravity="right"
+        android:clickable="true"
+        android:clipChildren="true"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+        android:listSelector="#FFFFFF"
         />
-
-
-
 </LinearLayout>
