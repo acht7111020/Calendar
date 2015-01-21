@@ -24,7 +24,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:padding="18dp"
+            android:padding="25dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btRight1"
@@ -33,7 +33,7 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:layout_weight="1"
-            android:src="@drawable/journal2" />
+            android:src="@drawable/journal_3" />
     </TableRow>
 
     <TableRow

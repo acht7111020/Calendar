@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,7 +38,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import sqlite.helper.CalendarAllDBhelper;
 import sqlite.helper.CalendarDBhelper;
 import sqlite.helper.TodoDatabaseHelper;
 import sqlite.model.Journal;
@@ -49,6 +52,7 @@ public class CalendarViewActivity extends Activity {
     private  String daynow;
     public CalendarDBhelper db;
     public TodoDatabaseHelper db2;
+    public CalendarAllDBhelper db3;
     private String prefix;
     public Calendar month;
     public ListView list ;
@@ -58,12 +62,15 @@ public class CalendarViewActivity extends Activity {
     private EditText dotimepicker2;
     private EditText dowrite;
     private ImageView plus;
+    private TextView onclickdate;
+    private TextView olddate;
     private View view;
     public int[] image = new int[]{R.drawable.happy , R.drawable.medicine , R.drawable.meeting , R.drawable.deadline,
             R.drawable.pencil};
 
     public List<Map<String, Object>> listview_list ;
     //public CalendarAdapter adapter;
+    public int today;
 
 
     @Override
@@ -72,6 +79,7 @@ public class CalendarViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_view);
         month = Calendar.getInstance();
+        today = month.get(month.DAY_OF_MONTH);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String input = df.format(month.getTime());
         onNewIntent(input);
@@ -81,6 +89,7 @@ public class CalendarViewActivity extends Activity {
         listview_list = new ArrayList<Map<String, Object>>();
         db = CalendarDBhelper.getInstance(this);
         db2=TodoDatabaseHelper.getInstance(this);
+        db3=CalendarAllDBhelper.getInstance(this);
         list = (ListView)findViewById(R.id.dailyView1);
         plus = (ImageView)findViewById(R.id.calendar_todo);
 
@@ -97,10 +106,12 @@ public class CalendarViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(month.get(Calendar.MONTH)== month.getActualMinimum(Calendar.MONTH)) {
-                    month.set((month.get(Calendar.YEAR)-1),month.getActualMaximum(Calendar.MONTH),month.get(Calendar.DAY_OF_MONTH));
+                    month.set((month.get(Calendar.YEAR)-1),month.getActualMaximum(Calendar.MONTH),today);
                 } else {
-                    month.set(Calendar.MONTH,month.get(Calendar.MONTH)-1);
+                    month.set(month.get(Calendar.YEAR),month.get(Calendar.MONTH)-1,today);
                 }
+                listview_list.clear();
+                plus.setVisibility(View.INVISIBLE);
 
                 refreshCalendar();
             }
@@ -112,11 +123,13 @@ public class CalendarViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(month.get(Calendar.MONTH)== month.getActualMaximum(Calendar.MONTH)) {
-                    month.set((month.get(Calendar.YEAR)+1),month.getActualMinimum(Calendar.MONTH),month.get(Calendar.DAY_OF_MONTH));
+                    month.set((month.get(Calendar.YEAR)+1),month.getActualMinimum(Calendar.MONTH),today);
                 } else {
-                    month.set(Calendar.MONTH,month.get(Calendar.MONTH)+1);
-                }
 
+                    month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH)+1,today);
+                }
+                plus.setVisibility(View.INVISIBLE);
+                listview_list.clear();
                 refreshCalendar();
 
             }
@@ -124,17 +137,36 @@ public class CalendarViewActivity extends Activity {
 
         gridview.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                TextView date = (TextView)v.findViewById(R.id.day);
-                date.setTextColor(Color.GRAY);
-                date.setBackgroundColor(Color.argb(150,204,255,204));
+                onclickdate = (TextView)v.findViewById(R.id.day);
+                onclickdate.setBackgroundColor(Color.argb(150,204,255,204));
+                if(olddate!=null){
+                    olddate.setBackgroundResource(R.drawable.pink_calendar2);
+                }
+                olddate = onclickdate;
+
                // v.setBackgroundResource(R.drawable.onclick_calendarback);
                 plus.setVisibility(View.VISIBLE);
-                getList(date.getText().toString());
+                getList(onclickdate.getText().toString());
 
             }
         });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
+            public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                                                         int index, long arg3) {
+                HashMap<String, Object> map=(HashMap)listview_list.get(index);
+                long id = (long)map.get("id");
+                Log.e("map",""+id);
 
+                db3.deleteCalendar(id);
+
+                listview_list.get(index).clear();
+                month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH),today);
+                refreshCalendar();
+
+                return true;
+            }
+        });
 
 
 
@@ -156,51 +188,36 @@ public class CalendarViewActivity extends Activity {
 
         resetList();
         listview_list.clear();
-/*
-        if(db.getAllJournals().size()!=0){
-            for(int i=0;i<db.getAllJournals().size();i++){
-                if(db.getAllJournals().get(i).getDateAt().equals(daynow)){
-                    String title = db.getAllJournals().get(i).getTitle();
-                    String info = db.getAllJournals().get(i).getDescrip();
-                    Map map = new HashMap<String, Object>();
-                    map.put("title", title);
-                    map.put("info", info);
-                    map.put("listview_icon",image[0]);
-                    listview_list.add(map);
-                }
-            }
-
-        }
-        if(db.getAllTasks().size()!=0){
-            for(int i=0;i<db.getAllTasks().size();i++){
-                if(db.getAllTasks().get(i).getDateAt().equals(daynow)){
-                    String title = db.getAllTasks().get(i).getTaskName();
-                    String info;
-                    if(db.getAllTasks().get(i).getStatus()==1) info = "finish";
-                    else info = "have to do";
-
-                    Map map = new HashMap<String, Object>();
-                    map.put("title", title);
-                    map.put("info", info);
-                    map.put("listview_icon",image[3]);
-                    listview_list.add(map);
-                }
-
-            }
-        }*/
 
         List<Journal> journallist = db.getJournalByDate(daynow);
         List<Task> tasklist = db2.getTasksByDate(daynow);
+        List<sqlite.model.Calendar> calendars = db3.getCalendarsByDate(daynow);
 
+        if(calendars.size()!=0){
+            for(sqlite.model.Calendar cal :calendars){
+                String title = cal.getTaskName();
+                String info = cal.getTime();
+                long id=cal.getId();
+                Log.e("getid",""+id);
+                Map map = new HashMap<String, Object>();
+                map.put("title", title);
+                map.put("info", info);
+                map.put("listview_icon",image[4]);
+                map.put("id",id);
+                listview_list.add(map);
+            }
+        }
 
         if(journallist.size() != 0){
             for(Journal journal : journallist){
                 String title = journal.getTitle();
                 String info = journal.getDescrip();
+                long id=journal.getId();
                 Map map = new HashMap<String, Object>();
                 map.put("title", title);
                 map.put("info", info);
                 map.put("listview_icon",image[0]);
+                map.put("id",id);
                 listview_list.add(map);
             }
         }
@@ -208,6 +225,7 @@ public class CalendarViewActivity extends Activity {
             for(Task task : tasklist ){
                 String title = task.getTaskName();
                 String info;
+                long id=task.getId();
                 if(task.getStatus()==1) info = "finish";
                 else info = "have to do";
 
@@ -215,19 +233,20 @@ public class CalendarViewActivity extends Activity {
                 map.put("title", title);
                 map.put("info", info);
                 map.put("listview_icon",image[3]);
+                map.put("id",id);
                 listview_list.add(map);
             }
         }
 
-            SimpleAdapter listadapter = new SimpleAdapter(CalendarViewActivity.this, listview_list, R.layout.listview_item,
-                    new String[]{"title", "info", "listview_icon"},
-                    new int[]{R.id.title, R.id.info, R.id.listview_icon}
-            );
+        SimpleAdapter listadapter = new SimpleAdapter(CalendarViewActivity.this, listview_list, R.layout.listview_item,
+                new String[]{"title", "info", "listview_icon","id"},
+                new int[]{R.id.title, R.id.info, R.id.listview_icon,R.id.id}
+        );
             list.setAdapter(listadapter);
 
     }
-    private List<? extends Map<String, ?>> getData() {
-        // TODO Auto-generated method stub
+  /*  private List<? extends Map<String, ?>> getData() {
+
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
         Map<String, Object> map =
@@ -256,20 +275,20 @@ public class CalendarViewActivity extends Activity {
         list.add(map);
 
         return list;
-    }
+    }*/
     public void resetList(){
         listview_list = new ArrayList<Map<String, Object>>();
     }
 
-    private void getData(String title ,String time) {
-        // TODO Auto-generated method stub
+    private void getData(String title ,String time ,long id) {
 
         Map<String, Object> map =  new HashMap<String, Object>();
         if(listview_list==null) resetList();
 
         map.put("title",title);
         map.put("info",time);
-        map.put("listview_icon",image[2]);
+        map.put("listview_icon",image[4]);
+        map.put("id",id);
         listview_list.add(map);
 
     }
@@ -280,6 +299,7 @@ public class CalendarViewActivity extends Activity {
         TextView title  = (TextView) findViewById(R.id.title);
 
         CalendarAdapter adapter = new CalendarAdapter(this, month );
+
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(adapter);
         //adapter.refreshDays();
@@ -287,10 +307,10 @@ public class CalendarViewActivity extends Activity {
         int t = month.get(Calendar.MONTH)+1;
         prefix = "";
         prefix = month.get(Calendar.YEAR)+"/"+t+"/";
-        listview_list.clear();
+
         SimpleAdapter listadapter = new SimpleAdapter(CalendarViewActivity.this, listview_list, R.layout.listview_item,
-                new String[]{"title", "info", "listview_icon"},
-                new int[]{R.id.title, R.id.info, R.id.listview_icon}
+                new String[]{"title", "info", "listview_icon","id"},
+                new int[]{R.id.title, R.id.info, R.id.listview_icon,R.id.id}
         );
         list.setAdapter(listadapter);
         title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
@@ -349,27 +369,19 @@ public class CalendarViewActivity extends Activity {
                 if(s3.equals("")){
                     s3 = "00";
                 }
-                String s4 ="date = "+daynow +", time = " + s2 + " : " +s3;
-                String title = s1+"   "+s4;
+                String s4 ="time = " + s2 + " : " +s3;
+                sqlite.model.Calendar calendar = new sqlite.model.Calendar(s1 , s4 ,daynow);
+                long id=db3.addCalendar(calendar);
 
-                if (s1.equalsIgnoreCase("")) {
-                    Toast.makeText(CalendarViewActivity.this, "enter the task description first!!",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Task task = new Task(title , 0 , daynow);
-                    long listid=db.addTask(task);
-                    task.setId(listid);
-                }
-
-
+                calendar.setId(id);
+                db3.updateCalendar(calendar);
+                Log.e("updateCal","id"+calendar.getId());
 
                 //resetList();
-                getData(title , "have to do");
-                SimpleAdapter listadapter = new SimpleAdapter(CalendarViewActivity.this ,listview_list ,R.layout.listview_item,
-                        new String[] { "title", "info", "listview_icon" },
-                        new int[] { R.id.title, R.id.info, R.id.listview_icon }
-                );
-                list.setAdapter(listadapter);
+                getData(s1, s4 ,id);
+                month.set((month.get(Calendar.YEAR)),month.get(Calendar.MONTH),today);
+                refreshCalendar();
+
                 if (popupWindow != null) {
                    popupWindow.dismiss();
                 }

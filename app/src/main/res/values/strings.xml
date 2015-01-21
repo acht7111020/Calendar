@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_wish_list">wishList</string>
     <string name="title_activity_journal">journalActivity</string>
-    <string name="title_activity_album">AlbumActivity</string>
+    <string name="title_activity_album">Album</string>
     <string name="title_activity_todo">TodoActivity</string>
     <string name="title_activity_calendar">CalendarActivity</string>
     <string name="title_activity_notes">NotesActivity</string>
@@ -46,6 +46,6 @@
     <string name="title_activity_grid_view_testing">GridViewTesting</string>
     <string name="title_activity_calendar_view">CalendarViewActivity</string>
     <string name="PetActivity">PetActivtiy</string>
-
+    <string name="title_activity_album_input">Add Photo</string>
 
 </resources>
